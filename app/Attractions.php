@@ -6,6 +6,8 @@ use Carbon\Carbon;
 
 class Attractions extends Model {
 
+    protected $hidden = ['active','id','location_id'];
+
     protected $connection = 'mysql';
     protected $primaryKey = 'id';
     protected $table = 'attractions';

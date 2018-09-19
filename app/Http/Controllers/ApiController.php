@@ -32,36 +32,31 @@ class ApiController extends Controller
 					]
 				];
 
-				return response()->json($list_create);
+				return response()->json((object) $list_create);
 
 			}
 
 			foreach($get_locations as $location){
 
-				$attractions = ($location->attractions->where("active",1)->count() != 0) ? $location->attractions->where("active",1)->toArray() : NULL;
+				$attractions = ($location->attractions->where("active",1)->count() != 0) ? json_decode(json_encode($location->attractions->where("active",1)->toArray())) : NULL;
 
-				$list_create[] = (object) [
+				$list_create['meta'] = (object) [
+					'code' => 200
+					,'status' => 'success'
+				];
 
-					'meta' => (object) [
-						'code' => 200
-						,'status' => 'success'
+				$list_create['data'][] = (object) [
+
+					'location' => (object) [
+						'name' => $location->name
+							// ,'slug' => $location->slug
+						,'display_name' => $location->display_name
+							// ,'more_link' => $location->more_link
+						,'latitude' => $location->latitude
+						,'longitude' => $location->longitude
 					],
 
-					'data' => (object) [
-
-						'location' => (object) [
-							'name' => $location->name
-							,'slug' => 'slug'
-							,'name' => 'name'
-							,'display_name' => 'display'
-							,'more_link' => 'more'
-							,'latitude' => 'lat'
-							,'longitude' => 'long'
-						],
-
-						'locations' => $attractions
-
-					]
+					'locations' => $attractions
 
 				];
 
@@ -71,7 +66,7 @@ class ApiController extends Controller
 
     	}
 
-    	return response()->json($list_create);
+    	return response()->json((object) $list_create);
 
     }
 

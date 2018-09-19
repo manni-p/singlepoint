@@ -55,6 +55,9 @@ class FeedController extends Controller
 					$createLocation->name = $feed->name;
 					$createLocation->latitude = $decode->data->location->latitude;
 					$createLocation->longitude = $decode->data->location->longitude;
+					$createLocation->slug = $decode->data->location->slug;
+					$createLocation->more_link = $decode->data->location->more_link;
+					$createLocation->display_name = $decode->data->location->display_name;
 
 					$createLocation->save();
 
