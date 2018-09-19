@@ -38,7 +38,7 @@
                                     <td>{{ $attraction->category }}</td>
                                     <td>{{ $attraction->address }}</td>
                                     <td>
-                                        <input class="tgl tgl-ios toggle-master" id="{{ $attraction->id }}" data-model="Attractions" data-url="/toggle" data-type="master_active" data-id="{{ $attraction->id }}" type="checkbox" @if($attraction->active == 1) checked @endif>
+                                        <input class="tgl tgl-ios toggle-master" id="{{ $attraction->id }}" data-model="Attractions" data-url="{{ url('/toggle') }}" data-type="master_active" data-id="{{ $attraction->id }}" type="checkbox" @if($attraction->active == 1) checked @endif>
                                         <label class="tgl-btn" for="{{ $attraction->id }}"></label>
                                     </td>
                                 </tr>

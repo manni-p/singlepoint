@@ -42,7 +42,7 @@
                                         <a href="{{ route('location.attractions',$location->id) }}">View</a>
                                     </td>
                                     <td>
-                                        <input class="tgl tgl-ios toggle-master" id="{{ $location->id }}" data-model="Locations" data-url="/toggle" data-type="master_active" data-id="{{ $location->id }}" type="checkbox" @if($location->active == 1) checked @endif>
+                                        <input class="tgl tgl-ios toggle-master" id="{{ $location->id }}" data-model="Locations" data-url="{{ url('/toggle') }}" data-type="master_active" data-id="{{ $location->id }}" type="checkbox" @if($location->active == 1) checked @endif>
                                         <label class="tgl-btn" for="{{ $location->id }}"></label>
                                     </td>
                                 </tr>
