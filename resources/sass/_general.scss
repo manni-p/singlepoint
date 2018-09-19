@@ -1,0 +1,43 @@
+table{
+	th{
+		font-weight:bold;
+		font-size:16px;
+	}
+}
+
+.btn{
+	background:$teal;
+	border-radius:5px;
+	padding:5px;
+	color:white;
+	float:right;
+}
+
+.left-button{
+	float:right !important;
+	width:50%;
+}
+
+.title{
+	width:40%;
+	display:inline-block;
+}
+
+@include toggle-switch;
+
+.act-icon{
+	.fa-toggle-on{
+		color:green;
+		font-size:22px;
+	}
+	.fa-toggle-off{
+		color:darkred;
+		font-size:22px;
+	}
+	i{
+		cursor:pointer;
+		&:hover{
+			color:#216a94;
+		}
+	}
+}
