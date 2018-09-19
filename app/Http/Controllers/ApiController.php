@@ -32,12 +32,13 @@ class ApiController extends Controller
 					]
 				];
 
-				return response()->json($list_create)
-				->setStatusCode(204);
+				return response()->json($list_create);
 
 			}
 
 			foreach($get_locations as $location){
+
+				$attractions = ($location->attractions->where("active",1)->count() != 0) ? $location->attractions->where("active",1)->toArray() : NULL;
 
 				$list_create[] = (object) [
 
@@ -58,7 +59,7 @@ class ApiController extends Controller
 							,'longitude' => 'long'
 						],
 
-						'locations' => $location->attractions->where("active",1)->toArray()
+						'locations' => $attractions
 
 					]
 
@@ -70,8 +71,7 @@ class ApiController extends Controller
 
     	}
 
-    	return response()->json($list_create)
-    	->setStatusCode(200);
+    	return response()->json($list_create);
 
     }
 

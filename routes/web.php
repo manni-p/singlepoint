@@ -35,32 +35,32 @@ Route::post('toggle', 'LocationController@toggle')->middleware('auth');
 
 
 
-//passport routes
+//passport routes THE BELOW IS NOW SETUP ON consumer.nhs
 
-Route::get('/redirect', function () {
-    $query = http_build_query([
-        'client_id' => '1',
-        'redirect_uri' => 'http://laravel-passport.nhs/callback',
-        'response_type' => 'code',
-        'scope' => '',
-    ]);
+// Route::get('/redirect', function () {
+//     $query = http_build_query([
+//         'client_id' => '1',
+//         'redirect_uri' => 'http://laravel-passport.nhs/callback',
+//         'response_type' => 'code',
+//         'scope' => '',
+//     ]);
 
-    return redirect('http://laravel-passport.nhs/oauth/authorize?'.$query);
-});
+//     return redirect('http://laravel-passport.nhs/oauth/authorize?'.$query);
+// });
 
-Route::get('/callback', function (Request $request) {
+// Route::get('/callback', function (Request $request) {
 
-    $http = new GuzzleHttp\Client;
+//     $http = new GuzzleHttp\Client;
 
-    $response = $http->post('http://laravel-passport.nhs/oauth/token', [
-        'form_params' => [
-            'grant_type' => 'authorization_code',
-            'client_id' => '1',
-            'client_secret' => 'xenj44cnmS5xgP6R9Ib8X1IS1rehbxVWr9xqecOA',
-            'redirect_uri' => 'http://laravel-passport.nhs/callback',
-            'code' => $request->code,
-        ],
-    ]);
+//     $response = $http->post('http://laravel-passport.nhs/oauth/token', [
+//         'form_params' => [
+//             'grant_type' => 'authorization_code',
+//             'client_id' => '1',
+//             'client_secret' => 'xenj44cnmS5xgP6R9Ib8X1IS1rehbxVWr9xqecOA',
+//             'redirect_uri' => 'http://laravel-passport.nhs/callback',
+//             'code' => $request->code,
+//         ],
+//     ]);
 
-    return json_decode((string) $response->getBody(), true);
-});
+//     return json_decode((string) $response->getBody(), true);
+// });

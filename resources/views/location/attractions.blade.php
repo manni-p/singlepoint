@@ -10,6 +10,10 @@
                         Attractions
                     </div>
 
+                    <div class="left-button">
+                        <a href=" {{ route('location.refresh') }}" class="btn">Refresh Cache</a>
+                    </div>
+
                 </div>
 
                 <div class="card-body">
