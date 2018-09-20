@@ -5,12 +5,22 @@ table{
 	}
 }
 
+.modal-header{
+	.close{
+		padding:0 !important;
+		margin:0 !important;
+	}
+}
+
 .btn{
 	background:$teal;
 	border-radius:5px;
 	padding:5px;
 	color:white;
 	float:right;
+	&.red{
+		background:$red !important;
+	}
 }
 
 .left-button{

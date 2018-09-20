@@ -31,6 +31,8 @@ Route::get('refresh-cache', 'LocationController@refreshCache')->middleware('auth
 
 Route::get('locations/{attraction_id}', 'LocationController@attraction')->middleware('auth')->name('location.attractions');
 
+
+Route::post('delete', 'LocationController@delete')->middleware('auth');
 Route::post('toggle', 'LocationController@toggle')->middleware('auth');
 
 

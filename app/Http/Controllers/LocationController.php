@@ -60,4 +60,18 @@ class LocationController extends Controller
 
 	}
 
+	public function delete(Request $request)
+	{
+
+		$deleteID = $request->input('deleteID');
+		$model = "App\\".$request->input('model');
+
+		$id = $model::find( $deleteID );
+
+		$id->delete();
+
+		echo "refresh";
+
+	}
+
 }

@@ -14329,33 +14329,56 @@ Vue.component('passport-authorized-clients', __webpack_require__(48));
 Vue.component('passport-personal-access-tokens', __webpack_require__(53));
 
 axios.get('/oauth/clients').then(function (response) {
-   console.log(response.data);
+  console.log(response.data);
 });
 
 var app = new Vue({
-   el: '#app'
+  el: '#app'
 });
 
 /// Toggle between active and non-active
 $(".toggle-master").on("click", function () {
 
-   var getID = $(this).data('id');
-   var model = $(this).data('model');
-   var url = $(this).data('url');
+  var getID = $(this).data('id');
+  var model = $(this).data('model');
+  var url = $(this).data('url');
 
-   if ($(this).prop('checked')) {
-      var checked = 1;
-   } else {
-      var checked = null;
-   }
+  if ($(this).prop('checked')) {
+    var checked = 1;
+  } else {
+    var checked = null;
+  }
 
-   var post_url = url;
+  var post_url = url;
 
-   $.post(post_url, {
-      getID: getID,
-      checked: checked,
-      model: model
-   }, function (data) {});
+  $.post(post_url, {
+    getID: getID,
+    checked: checked,
+    model: model
+  }, function (data) {});
+});
+
+//popup and change data for the delete button
+$(document).on("click", ".delete", function () {
+  var id = $(this).data('id');
+  var name = $(this).data('name');
+  $("h4.modal-title").text("Delete " + name);
+  $("button.btn-danger").attr('data-id', id);
+});
+
+//delete and send through on the page
+$("#deleteModal button.btn-danger").on("click", function () {
+  var delete_id = $(this).data("id");
+  var deleteLink = $(this).data('delete');
+  var model = $(this).data('model');
+
+  $.post(deleteLink, {
+    deleteID: delete_id,
+    model: model
+  }, function (data) {
+    $("tr[data-id='" + delete_id + "']").remove();
+    $('#deleteModal').modal('toggle');
+  });
 });
 
 /***/ }),

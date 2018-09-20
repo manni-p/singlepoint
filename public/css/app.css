@@ -3,12 +3,21 @@
   font-size: 16px;
 }
 
+.modal-header .close {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
 .btn {
   background: #4dc0b5;
   border-radius: 5px;
   padding: 5px;
   color: white;
   float: right;
+}
+
+.btn.red {
+  background: #e3342f !important;
 }
 
 .left-button {
