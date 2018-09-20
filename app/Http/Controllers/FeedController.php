@@ -86,9 +86,12 @@ class FeedController extends Controller
 							$createAttraction->link = $location->link;
 							$createAttraction->longitude = $location->longitude;
 							$createAttraction->latitude = $location->latitude;
+							$createAttraction->rating = $location->rating;
 
 							if(isset($location->image)){
 								$createAttraction->image = $location->image;
+							} elseif(isset($location->image_large)){
+								$createAttraction->image = $location->image_large;
 							}
 
 							$createAttraction->save();
