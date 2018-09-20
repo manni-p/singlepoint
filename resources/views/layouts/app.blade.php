@@ -18,6 +18,11 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <script>
+        var flagsUrl = '{{ env('APP_URL') }}';
+    </script>
+
 </head>
 <body>
     <div id="app">

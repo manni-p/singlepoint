@@ -24,4 +24,4 @@ This will then place the data in a section which will allow the user to publish 
 This application uses a public API but also OAuth 2 (which can be tested through Postman)
 
 * URL for public API is http://www.topcatclients.com/technical-task/api/p/endpoint
-* URL for OAuth 2 is http://www.topcatclients.com/api/endpoint with Bearer token
+* URL for OAuth 2 is http://www.topcatclients.com/technical-task/api/endpoint with Bearer token coming from http://www.topcatclients.com/consumer/
