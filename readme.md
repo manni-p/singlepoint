@@ -14,6 +14,7 @@ To install this project on your local machine, please follow:
 * Username: mandip_purewal@hotmail.co.uk and Password: password1
 * Run: php artisan db:seed --class=UsersTableSeeder and php artisan db:seed --class=ApiListSeeder
 * API List Seeder will add the API list to the database
+* Run: php artisan passport:install - This command will create the encryption keys needed to generate secure access tokens. In addition, the command will create "personal access" and "password grant" clients which will be used to generate access tokens.
 
 ## How it works
 
