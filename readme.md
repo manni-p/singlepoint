@@ -22,9 +22,9 @@ This application has a control panel which lists the API feeds given from the do
 
 This will then place the data in a section which will allow the user to publish the location. Once the user is happy an API is created. This API is cached for up to 1 hour and the user can clear the cache through the control panel.
 
-This application uses a public API but also OAuth 2 (which can be tested through Postman)
+This application uses a public API but also OAuth 2 (which can be tested through Postman and also through vendor/bin/phpunit with the token collected from http://www.topcatclients.com/consumer/)
 
 * Documentation for the API can be found here: https://laravelapiendpoint.docs.apiary.io/
 * URL for public API is http://www.topcatclients.com/technical-task/api/v1/p/endpoint
-* URL for OAuth 2 is http://www.topcatclients.com/technical-task/api/v1/endpoint with Bearer token coming from http://www.topcatclients.com/consumer/
+* URL for OAuth 2 is http://www.topcatclients.com/technical-task/api/v1/endpoint with the access token coming from http://www.topcatclients.com/consumer/
 * Example of retreiving information from the API can be found here: http://www.topcatclients.com/technical-task/example-feed/
