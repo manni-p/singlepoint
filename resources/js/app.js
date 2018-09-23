@@ -73,11 +73,10 @@
     })
 
   //delete and send through on the page
-  $("#deleteModal button.btn-danger").on("click", function(){
-    var delete_id = $(this).data("id");
+  $(document).on("click", "#deleteModal button.btn-danger", function(){
+    var delete_id = $(this).attr("data-id");
     var deleteLink = $(this).data('delete');
     var model = $(this).data('model');
-
     $.post(deleteLink,{
       deleteID: delete_id,
       model: model,

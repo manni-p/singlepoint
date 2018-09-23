@@ -17,9 +17,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('example-feed', 'HomeController@example');
+
 Auth::routes();
 
-Route::get('/dashboard', 'HomeController@index')->name('home');
+Route::get('dashboard', 'HomeController@index')->name('home');
 
 Route::get('feed-list', 'FeedController@index')->middleware('auth')->name('feed.list');
 

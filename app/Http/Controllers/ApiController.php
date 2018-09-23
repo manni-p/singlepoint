@@ -13,15 +13,33 @@ class ApiController extends Controller
 	public function index(Request $request)
 	{
 
-		/* Check if API has been cached */
-		if (Cache::has('cache_api')) {
+		/* Check if API has been cached and cache only if the url query has been cached before */
+		$url = request()->url();
+		$queryParams = request()->query();
 
-			$list_create = Cache::get('cache_api');
+		ksort($queryParams);
 
+		$queryString = http_build_query($queryParams);
+
+		$fullUrl = "{$url}?{$queryString}";
+
+		$rememberKey = sha1($fullUrl);
+
+		if(Cache::has($rememberKey)){
+			return response()->json( Cache::get($rememberKey));
 		} else {
 
-			$get_locations = Locations::where("active",1)->get();
+			/* Check if sort has been added for locations area, leave asc as default */
+			$sort = (isset($request->sort) && $request->sort == "desc") ? 'desc' : 'asc';
 
+			$get_locations = Locations::where("active",1);
+
+			/* Check if specific location is being searched */
+			if(isset($request->location)){
+				$get_locations = $get_locations->where("slug",$request->location)->get();
+			} else {
+				$get_locations = $get_locations->get();
+			}
 
 			if($get_locations->count() == 0){
 
@@ -39,7 +57,7 @@ class ApiController extends Controller
 			foreach($get_locations as $location){
 
 				/* Turn the relationship into an object */
-				$attractions = ($location->attractions->where("active",1)->count() != 0) ? json_decode(json_encode($location->attractions->where("active",1)->toArray())) : NULL;
+				$attractions = ($location->attractions->where("active",1)->count() != 0) ? json_decode(json_encode($location->attractions()->where("active",1)->orderBy("name",$sort)->get()->toArray())) : NULL;
 
 				/* create a meta that will return code 200 and status */
 				$list_create['meta'] = (object) [
@@ -51,7 +69,7 @@ class ApiController extends Controller
 
 					'location' => (object) [
 						'name' => $location->name
-							// ,'slug' => $location->slug
+						,'slug' => $location->slug
 						,'display_name' => $location->display_name
 							// ,'more_link' => $location->more_link
 						,'latitude' => $location->latitude
@@ -65,14 +83,13 @@ class ApiController extends Controller
 			}
 
 			/* Create a cache that will last 1 hour */
+			Cache::put($rememberKey, (object) $list_create, 60);
 
-    		Cache::put('cache_api', $list_create, 60); // 1 hour
+			return response()->json((object) $list_create);
 
-    	}
+		}
 
-    	return response()->json((object) $list_create);
-
-    }
+	}
 
 
 }
