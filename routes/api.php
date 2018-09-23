@@ -20,8 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['middleware' => ['web','auth:api']], function(){
 
-   Route::get('endpoint','ApiController@index');
+   Route::get('v1/endpoint','ApiController@index');
 
 });
 
-Route::get('p/endpoint','ApiController@index');
+Route::get('v1/p/endpoint','ApiController@index');

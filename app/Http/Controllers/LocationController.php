@@ -46,17 +46,21 @@ class LocationController extends Controller
 	public function toggle(Request $request)
 	{
 
-		$getID = $request->input('getID');
-		$checked = $request->input('checked');
-		$model = "App\\".$request->input('model');
+	 /**
+     * Toggle the active/inactive locations/attractions.
+     */
 
-		$edit = $model::find($getID);
+	 $getID = $request->input('getID');
+	 $checked = $request->input('checked');
+	 $model = "App\\".$request->input('model');
 
-		$edit->active = $checked;
+	 $edit = $model::find($getID);
 
-		$edit->save();
+	 $edit->active = $checked;
 
-		echo "success";
+	 $edit->save();
+
+	 echo "success";
 
 	}
 

@@ -13,7 +13,7 @@ class ApiController extends Controller
 	public function index(Request $request)
 	{
 
-
+		/* Check if API has been cached */
 		if (Cache::has('cache_api')) {
 
 			$list_create = Cache::get('cache_api');
@@ -38,8 +38,10 @@ class ApiController extends Controller
 
 			foreach($get_locations as $location){
 
+				/* Turn the relationship into an object */
 				$attractions = ($location->attractions->where("active",1)->count() != 0) ? json_decode(json_encode($location->attractions->where("active",1)->toArray())) : NULL;
 
+				/* create a meta that will return code 200 and status */
 				$list_create['meta'] = (object) [
 					'code' => 200
 					,'status' => 'success'
@@ -61,6 +63,8 @@ class ApiController extends Controller
 				];
 
 			}
+
+			/* Create a cache that will last 1 hour */
 
     		Cache::put('cache_api', $list_create, 60); // 1 hour
 

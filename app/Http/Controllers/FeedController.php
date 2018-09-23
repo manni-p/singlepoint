@@ -29,85 +29,89 @@ class FeedController extends Controller
 	public function import()
 	{
 
-		$apiFeed = ApiList::all();
+	 /**
+     * Build the location and attractions list..
+     */
 
-		$countLocations = 0;
-		$countAttractions = 0;
+	 $apiFeed = ApiList::all();
 
-		foreach($apiFeed as $feed):
+	 $countLocations = 0;
+	 $countAttractions = 0;
 
-			$getFeed = @file_get_contents($feed->feed_url);
+	 foreach($apiFeed as $feed):
 
-			if($getFeed !== false AND !empty($getFeed)) {
-				$decode = json_decode($getFeed);
-			} else {
-				continue;
-			}
+	 	$getFeed = @file_get_contents($feed->feed_url);
 
-			if(isset($decode->data)){
+	 	if($getFeed !== false AND !empty($getFeed)) {
+	 		$decode = json_decode($getFeed);
+	 	} else {
+	 		continue;
+	 	}
 
-				$checkLocationExist = Locations::where("name",$feed->name);
+	 	if(isset($decode->data)){
 
-				if(!$checkLocationExist->exists()){
+	 		$checkLocationExist = Locations::where("name",$feed->name);
 
-					$countLocations++;
-					$createLocation = new Locations;
-					$createLocation->name = $feed->name;
-					$createLocation->latitude = $decode->data->location->latitude;
-					$createLocation->longitude = $decode->data->location->longitude;
-					$createLocation->slug = $decode->data->location->slug;
-					$createLocation->more_link = $decode->data->location->more_link;
-					$createLocation->display_name = $decode->data->location->display_name;
+	 		if(!$checkLocationExist->exists()){
 
-					$createLocation->save();
+	 			$countLocations++;
+	 			$createLocation = new Locations;
+	 			$createLocation->name = $feed->name;
+	 			$createLocation->latitude = $decode->data->location->latitude;
+	 			$createLocation->longitude = $decode->data->location->longitude;
+	 			$createLocation->slug = $decode->data->location->slug;
+	 			$createLocation->more_link = $decode->data->location->more_link;
+	 			$createLocation->display_name = $decode->data->location->display_name;
 
-					$locationID = $createLocation->id;
+	 			$createLocation->save();
 
-				} else {
-					$locationID = $checkLocationExist->first()->id;
-				}
+	 			$locationID = $createLocation->id;
 
-				if(isset($decode->data->locations)){
+	 		} else {
+	 			$locationID = $checkLocationExist->first()->id;
+	 		}
 
-					foreach($decode->data->locations as $location):
+	 		if(isset($decode->data->locations)){
 
-						$attraction = Attractions::where("name",$location->name)->where("location_id",$locationID)->where("category",$location->category)->exists();
+	 			foreach($decode->data->locations as $location):
 
-						if(!$attraction){
+	 				$attraction = Attractions::where("name",$location->name)->where("location_id",$locationID)->where("category",$location->category)->exists();
 
-							$countAttractions++;
+	 				if(!$attraction){
 
-							$createAttraction = new Attractions;
+	 					$countAttractions++;
 
-							$createAttraction->name = $location->name;
-							$createAttraction->location_id = $locationID;
-							$createAttraction->address = $location->address;
-							$createAttraction->category = $location->category;
-							$createAttraction->link = $location->link;
-							$createAttraction->longitude = $location->longitude;
-							$createAttraction->latitude = $location->latitude;
-							$createAttraction->rating = $location->rating;
+	 					$createAttraction = new Attractions;
 
-							if(isset($location->image)){
-								$createAttraction->image = $location->image;
-							} elseif(isset($location->image_large)){
-								$createAttraction->image = $location->image_large;
-							}
+	 					$createAttraction->name = $location->name;
+	 					$createAttraction->location_id = $locationID;
+	 					$createAttraction->address = $location->address;
+	 					$createAttraction->category = $location->category;
+	 					$createAttraction->link = $location->link;
+	 					$createAttraction->longitude = $location->longitude;
+	 					$createAttraction->latitude = $location->latitude;
+	 					$createAttraction->rating = $location->rating;
 
-							$createAttraction->save();
+	 					if(isset($location->image)){
+	 						$createAttraction->image = $location->image;
+	 					} elseif(isset($location->image_large)){
+	 						$createAttraction->image = $location->image_large;
+	 					}
 
-						}
+	 					$createAttraction->save();
 
-					endforeach;
+	 				}
 
-				}
+	 			endforeach;
 
-			}
+	 		}
 
-		endforeach;
+	 	}
+
+	 endforeach;
 
 
-		return redirect()->back()->with("attraction_count",$countAttractions)->with("location_count",$countLocations);
+	 return redirect()->back()->with("attraction_count",$countAttractions)->with("location_count",$countLocations);
 
 
 	}
