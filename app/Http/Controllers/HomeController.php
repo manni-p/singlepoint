@@ -39,18 +39,29 @@ class HomeController extends Controller
 
         $decodeAPI = json_decode($getAPI);
 
-        foreach($decodeAPI->data as $data){
+        if($decodeAPI->meta->code == "200"){
 
-            echo "<div style='margin-bottom:20px; display:block;'> <div><strong>".$data->location->name."</strong></div>";
+            foreach($decodeAPI->data as $data){
 
-            echo "<div>";
+                echo "<div style='margin-bottom:20px; display:block;'> <div><strong>".$data->location->name."</strong></div>";
 
-            foreach($data->locations as $attraction){
-                echo "<li>".$attraction->name."</li>";
+                echo "<div>";
+
+                if($data->locations != null){
+
+                    foreach($data->locations as $attraction){
+                        echo "<li>".$attraction->name."</li>";
+                    }
+
+                } else {
+                    echo "no locations";
+                }
+
+                echo "</div></div>";
+
             }
-
-            echo "</div></div>";
-
+        } else {
+            echo "No content";
         }
     }
 
