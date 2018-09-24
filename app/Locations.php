@@ -13,6 +13,9 @@ class Locations extends Model {
         'name',
         'latitude',
         'longitude',
+        'slug',
+        'display_name',
+        'more_link',
         'active'
     );
 

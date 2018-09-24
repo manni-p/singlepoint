@@ -15,8 +15,11 @@ class Attractions extends Model {
         'name',
         'location_id',
         'address',
+        'description',
+        'rating',
         'category',
         'link',
+        'image',
         'latitude',
         'longitude',
         'active'
