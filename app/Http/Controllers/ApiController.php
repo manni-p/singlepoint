@@ -50,6 +50,8 @@ class ApiController extends Controller
 					]
 				];
 
+				// return response()->json((object) $list_create, 204);
+				/// showing an example without the 204 status code
 				return response()->json((object) $list_create);
 
 			}
