@@ -48,7 +48,7 @@ class FeedController extends Controller
 	 		continue;
 	 	}
 
-	 	if(isset($decode->data)){
+	 	if(isset($decode->data) && $decode->meta->code == 200){
 
 	 		$checkLocationExist = Locations::where("name",$feed->name);
 
