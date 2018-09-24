@@ -56,12 +56,12 @@ class FeedController extends Controller
 
 	 			$countLocations++;
 	 			$createLocation = new Locations;
-	 			$createLocation->name = $feed->name;
-	 			$createLocation->latitude = $decode->data->location->latitude;
-	 			$createLocation->longitude = $decode->data->location->longitude;
-	 			$createLocation->slug = str_slug($feed->name, "-");
-	 			$createLocation->more_link = $decode->data->location->more_link;
-	 			$createLocation->display_name = $decode->data->location->display_name;
+	 			$createLocation->name = filter_var($feed->name, FILTER_SANITIZE_STRING);
+	 			$createLocation->latitude = filter_var($decode->data->location->latitude, FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+	 			$createLocation->longitude = filter_var($decode->data->location->longitude, FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+	 			$createLocation->slug = filter_var(str_slug($feed->name, "-"), FILTER_SANITIZE_URL);
+	 			$createLocation->more_link = filter_var($decode->data->location->more_link, FILTER_SANITIZE_URL);
+	 			$createLocation->display_name = filter_var($decode->data->location->display_name, FILTER_SANITIZE_STRING);
 
 	 			$createLocation->save();
 
@@ -75,7 +75,10 @@ class FeedController extends Controller
 
 	 			foreach($decode->data->locations as $location):
 
-	 				$attraction = Attractions::where("name",$location->name)->where("location_id",$locationID)->where("category",$location->category)->exists();
+	 				$attractionName = filter_var($location->name, FILTER_SANITIZE_STRING);
+	 				$attractionCategory = (isset($location->category)) ? filter_var($location->category, FILTER_SANITIZE_STRING) : null;
+
+	 				$attraction = Attractions::where("name",$attractionName)->where("location_id",$locationID)->where("category",$attractionCategory)->exists();
 
 	 				if(!$attraction){
 
@@ -83,23 +86,43 @@ class FeedController extends Controller
 
 	 					$createAttraction = new Attractions;
 
-	 					$createAttraction->name = $location->name;
+	 					$createAttraction->name = filter_var($location->name, FILTER_SANITIZE_STRING);
+
 	 					$createAttraction->location_id = $locationID;
-	 					$createAttraction->address = $location->address;
-	 					$createAttraction->category = $location->category;
-	 					$createAttraction->link = $location->link;
-	 					$createAttraction->longitude = $location->longitude;
-	 					$createAttraction->latitude = $location->latitude;
-	 					$createAttraction->rating = $location->rating;
+
+	 					if(isset($location->address)){
+	 						$createAttraction->address = filter_var($location->address, FILTER_SANITIZE_STRING);
+	 					}
+
+	 					if(isset($location->category)){
+	 						$createAttraction->category = filter_var($location->category, FILTER_SANITIZE_STRING);
+	 					}
+
+	 					if(isset($location->link)){
+	 						$createAttraction->link = filter_var($location->link, FILTER_SANITIZE_URL);
+	 					}
+
+	 					if(isset($location->longitude)){
+	 						$createAttraction->longitude = filter_var($location->longitude, FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+	 					}
+
+	 					if(isset($location->latitude)){
+	 						$createAttraction->latitude = filter_var($location->latitude, FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+	 					}
+
+	 					if(isset($location->rating)){
+	 						$createAttraction->rating = filter_var($location->rating, FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+	 					}
 
 	 					if(isset($location->description)){
-	 						$createAttraction->description = $location->description;
+	 						$desc = strip_tags($location->description, '<a><strong><em><hr><br><p><u><ul><ol><li><dl><dt><dd><table><thead><tr><th><tbody><td><tfoot>');
+	 						$createAttraction->description = filter_var($desc, FILTER_SANITIZE_STRING);
 	 					}
 
 	 					if(isset($location->image)){
-	 						$createAttraction->image = $location->image;
+	 						$createAttraction->image = filter_var($location->image, FILTER_SANITIZE_URL);
 	 					} elseif(isset($location->image_large)){
-	 						$createAttraction->image = $location->image_large;
+	 						$createAttraction->image = filter_var($location->image_large, FILTER_SANITIZE_URL);
 	 					}
 
 	 					$createAttraction->save();

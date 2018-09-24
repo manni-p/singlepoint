@@ -35,7 +35,7 @@
                                 @foreach($attractionList as $attraction)
 
                                 <tr data-id="{{ $attraction->id }}">
-                                    <td>{{ $attraction->name }}</td>
+                                    <td>{!! $attraction->name !!}</td>
                                     <td>
                                         @if($attraction->category)
                                         {{ $attraction->category }}
@@ -45,7 +45,7 @@
                                     </td>
                                     <td>
                                         @if($attraction->address)
-                                        {{ $attraction->address }}
+                                        {!! $attraction->address !!}
                                         @else
                                         -
                                         @endif
