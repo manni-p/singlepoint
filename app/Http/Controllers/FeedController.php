@@ -143,5 +143,28 @@ class FeedController extends Controller
 
 	}
 
+	public function update(Request $request, $locationID)
+	{
+		$location = Locations::find($locationID);
+
+		if($location){
+
+			$location->update($request->all());
+
+			return response()->json(["message" => "Updated"]);
+
+		}
+
+
+		$list_create = (object) [
+			'meta' => (object) [
+				'code' => 204
+				,'status' => 'not found'
+			]
+		];
+
+		return response()->json((object) $list_create);
+
+	}
 
 }

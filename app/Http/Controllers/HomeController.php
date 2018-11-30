@@ -32,9 +32,9 @@ class HomeController extends Controller
         $sort = (isset($request->sort) && $request->sort == "desc") ? 'desc' : 'asc';
 
         if(isset($request->location)){
-            $getAPI = file_get_contents(url('/').'/api/v1/p/endpoint?location='.$request->location.'&sort='.$sort);
+            $getAPI = file_get_contents(url('/').'/api/v1/p/endpoint?page=1&location='.$request->location.'&sort='.$sort);
         } else {
-            $getAPI = file_get_contents(url('/').'/api/v1/p/endpoint?sort='.$sort);
+            $getAPI = file_get_contents(url('/').'/api/v1/p/endpoint?page=1&sort='.$sort);
         }
 
         $decodeAPI = json_decode($getAPI);
@@ -47,9 +47,10 @@ class HomeController extends Controller
 
                 echo "<div>";
 
-                if($data->locations != null){
+                if($data->locations != null && $data->locations->data != null){
 
-                    foreach($data->locations as $attraction){
+                    foreach($data->locations->data as $attraction){
+
                         echo "<li>".$attraction->name."</li>";
                     }
 

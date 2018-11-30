@@ -59,7 +59,7 @@ class ApiController extends Controller
 			foreach($get_locations as $location){
 
 				/* Turn the relationship into an object */
-				$attractions = ($location->attractions->where("active",1)->count() != 0) ? json_decode(json_encode($location->attractions()->where("active",1)->orderBy("name",$sort)->get()->toArray())) : NULL;
+				$attractions = ($location->attractions->where("active",1)->count() != 0) ? json_decode(json_encode($location->attractions()->where("active",1)->orderBy("name",$sort)->paginate(3)->toArray())) : NULL;
 
 				/* create a meta that will return code 200 and status */
 				$list_create['meta'] = (object) [

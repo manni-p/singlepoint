@@ -15,12 +15,16 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+	return $request->user();
 });
 
 Route::group(['middleware' => ['web','auth:api']], function(){
 
-   Route::get('v1/endpoint','ApiController@index');
+	Route::get('v1/endpoint','ApiController@index');
+
+	Route::post('v1/store', 'FeedController@store');
+	Route::put('update/{locationID}', 'FeedController@update');
+	Route::delete('v1/delete/{locationID}', 'FeedController@delete');
 
 });
 
